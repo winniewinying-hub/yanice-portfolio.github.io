@@ -1,0 +1,49 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.75rem 3rem;
+  border-top: 1px solid var(--border);
+}
+
+.copy {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.8125rem;
+  color: var(--faint);
+  line-height: 1;
+}
+
+.nameCn {
+  font-family: var(--font-display), serif;
+}
+
+.sep {
+  opacity: 0.4;
+  margin: 0 0.1rem;
+}
+
+.links {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.link {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.8125rem;
+  color: var(--faint);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.link:hover {
+  color: var(--fg);
+}
+
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 1.5rem;
+  }
+}

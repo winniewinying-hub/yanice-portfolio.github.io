@@ -1,0 +1,114 @@
+.cardLink {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #ebebeb;
+}
+
+/* Featured card gets a slightly taller ratio to feel more monumental */
+.card.featured {
+  aspect-ratio: 21 / 9;
+}
+
+.imageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+/* Dark overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: flex-end;
+  padding: 2.5rem;
+  transition: background-color 0.35s ease;
+}
+
+.card:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.62);
+}
+
+.overlayContent {
+  transform: translateY(16px);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.card:hover .overlayContent {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.02em;
+  font-family: var(--font-display), serif;
+}
+
+.card.featured .title {
+  font-size: 2.75rem;
+}
+
+.subtitle {
+  font-family: var(--font-body), sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.date {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  font-family: var(--font-body), sans-serif;
+}
+
+@media (max-width: 960px) {
+  .card.featured {
+    aspect-ratio: 16 / 9;
+  }
+  .card.featured .title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    padding: 1.5rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .date {
+    font-size: 0.75rem;
+  }
+}
