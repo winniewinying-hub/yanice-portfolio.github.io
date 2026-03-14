@@ -58,7 +58,7 @@ export default function Home() {
         <div className={styles.heroLeft}>
           <p className={styles.heroGreeting}>你好 / Hello</p>
           <h1 className={styles.heroName}>陈晓颖</h1>
-          <p className={styles.heroHandle}>HiuwingChan</p>
+          <p className={styles.heroHandle}>HiuwingChan (AKA Yanice)</p>
         </div>
 
         <div className={styles.heroRight}>
