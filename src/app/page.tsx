@@ -1,159 +1,321 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
 import styles from './page.module.css';
 
 const projects = [
   {
     slug: 'neomic-go',
-    number: '01',
-    title: 'NeoMic GO',
-    titleZh: '硬件产品 + 配套系统界面',
-    tags: ['智能硬件', '硬件产品', '上位机'],
-    date: '2024–2025',
-    status: '已上线',
-    imageSrc: '/assets/extracted/page_4_img_1.jpeg',
-    description: '面向内容创作者的无线录音系统，涵盖硬件录音设备 UI 与桌面端配套软件。',
+    title: 'NeoMic Go',
+    tags: ['智能硬件', '上位机'],
+    imageSrc: '/project_neomic.png',
+    bgColor: '#FFEED1'
   },
   {
     slug: 'edifier-mall',
-    number: '02',
-    title: '漫步者官方商城',
-    titleZh: '从0到1构建品牌直连自营电商',
-    tags: ['C端项目', '移动端', 'Web端'],
-    date: '2023–2024',
-    status: '已上线',
-    imageSrc: '/assets/extracted/page_22_img_1.jpeg',
-    description: '从零搭建的品牌自营商城，覆盖商品展示、购物转化与会员体系，移动端 + Web 双端。',
+    title: '漫步者商城',
+    tags: ['品牌', '应用程序', '网页'],
+    imageSrc: '/project_edifier.png',
+    bgColor: '#FFD1D4'
   },
   {
     slug: 'ric-center',
-    number: '03',
     title: 'RIC验配中心',
-    titleZh: '为线下听力服务场景打造的专业验配工具',
-    tags: ['B端系统', '医疗辅助设备', '任务导向设计'],
-    date: '2025',
-    status: '待上线',
-    imageSrc: '/assets/extracted/page_37_img_1.jpeg',
-    description: '听力验配师专用的 B 端业务系统，支持客户档案、听力评估与参数精调全流程。',
+    tags: ['B端业务系统', '医疗辅助设备', '网页'],
+    imageSrc: '/project_ric.png',
+    bgColor: '#D3E1FA'
   },
   {
-    slug: 'edifier-connect',
-    number: '04',
-    title: 'EDIFIER CONNECT',
-    titleZh: '移动端设备管理 App',
-    tags: ['移动端', '信息架构优化', '多端设计'],
-    date: '2021–2022',
-    status: '已上线',
-    imageSrc: '/assets/extracted/page_49_img_1.jpeg',
-    description: '面向蓝牙耳机与音箱产品的设备管理 App，统一管理多款设备的连接、音效与固件升级。',
-  },
+    slug: 'meeting-notes',
+    title: '会议记录',
+    tags: ['录音设备', '应用程序'],
+    imageSrc: '/project_meeting.png',
+    bgColor: '#DDF0FF'
+  }
 ];
 
 export default function Home() {
+  const [activeProject, setActiveProject] = useState(projects[0].slug);
+  const projectsRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const activeIndexRef = useRef(0);
+
+  useEffect(() => {
+    activeIndexRef.current = projects.findIndex(p => p.slug === activeProject);
+  }, [activeProject]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) return;
+
+    const projectsEl = projectsRef.current;
+    if (!projectsEl) return;
+
+    let isScrolling = false;
+
+    const handleWheel = (e: WheelEvent) => {
+      const containerEl = containerRef.current;
+      if (!containerEl) return;
+
+      const containerRect = containerEl.getBoundingClientRect();
+      const currentIndex = activeIndexRef.current;
+      const total = projects.length;
+
+      // Only intercept while the card container is "docked" near the navbar
+      const isDocked = containerRect.top > -40 && containerRect.top < 160;
+      if (!isDocked) return;
+
+      const snapY = window.scrollY + containerRect.top - 88;
+
+      if (e.deltaY > 0 && currentIndex < total - 1) {
+        // Scroll down → next card
+        e.preventDefault();
+        window.scrollTo({ top: snapY, behavior: 'instant' });
+        if (!isScrolling) {
+          isScrolling = true;
+          setActiveProject(projects[currentIndex + 1].slug);
+          setTimeout(() => (isScrolling = false), 600);
+        }
+      } else if (e.deltaY < 0 && currentIndex > 0) {
+        // Scroll up → previous card
+        e.preventDefault();
+        window.scrollTo({ top: snapY, behavior: 'instant' });
+        if (!isScrolling) {
+          isScrolling = true;
+          setActiveProject(projects[currentIndex - 1].slug);
+          setTimeout(() => (isScrolling = false), 600);
+        }
+      }
+      // else: at boundary (first↑ or last↓) → don't preventDefault → natural scroll continues
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  const handleNavClick = (index: number) => {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      setActiveProject(projects[index].slug);
+      return;
+    }
+    
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      window.scrollTo({ top: window.scrollY + rect.top - 88, behavior: 'smooth' });
+    }
+    setActiveProject(projects[index].slug);
+  };
+
+
   return (
     <main className={styles.main}>
-
+      
       {/* ── Hero ── */}
       <section className={styles.hero}>
-        <div className={styles.heroLeft}>
-          <p className={styles.heroGreeting}>你好 / Hello</p>
-          <h1 className={styles.heroName}>陈晓颖</h1>
-          <p className={styles.heroHandle}>HiuwingChan (AKA Yanice)</p>
-        </div>
-
-        <div className={styles.heroRight}>
-          <p className={styles.heroRole}>UX / UI Designer</p>
-          <p className={styles.heroBio}>
-            跨领域 UIUX 设计师，独立负责智能硬件产品及核心业务线的 UI 设计与规范搭建，
-            主导多款 0-1 项目与设计体系落地。
-          </p>
-          <div className={styles.heroMeta}>
-            <span>深圳漫步者科技</span>
-            <span className={styles.heroDot}>·</span>
-            <span>2021–2025</span>
-          </div>
-          <div className={styles.heroTags}>
-            <span>智能硬件 UI</span>
-            <span>C端应用</span>
-            <span>B端系统</span>
-            <span>网页设计</span>
-          </div>
-        </div>
-
-        <div className={styles.heroScroll}>
-          <span>↓</span>
-          <span className={styles.heroScrollLabel}>Scroll</span>
-        </div>
+        <motion.div 
+          className={styles.heroContent}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <h1 className={styles.heroHello}>HELLO,</h1>
+          <h1 className={styles.heroNameZh}>我是陈晓颖。</h1>
+          <h2 className={styles.heroRole}>是一名UI/UX设计师。</h2>
+          
+          <motion.a 
+            href="#about"
+            className={styles.heroScroll}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <span className={styles.scrollIcon}>↓</span> Scroll for more
+          </motion.a>
+        </motion.div>
       </section>
 
-      {/* ── Work ── */}
-      <section id="work" className={styles.work}>
-        <div className={styles.workHeader}>
-          <span className={styles.workLabel}>
-            <span lang="zh">精选作品</span>
-            <span className={styles.workLabelSep}> · </span>
-            Selected Work
-          </span>
-          <span className={styles.workCount}>{projects.length} Projects</span>
-        </div>
+      {/* ── About Snippet ── */}
+      <section id="about" className={styles.about}>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className={styles.aboutGrid}
+        >
+          <h2 className={styles.aboutTitle}>ABOUT <br/> ME</h2>
 
-        <div className={styles.projectList}>
-          {projects.map((project, i) => {
-            const reverse = i % 2 !== 0;
-            return (
-              <Link
-                key={project.slug}
-                href={`/projects/${project.slug}`}
-                className={`${styles.projectRow} ${reverse ? styles.projectRowReverse : ''}`}
-              >
-                <div className={styles.projectImage}>
-                  <Image
-                    src={project.imageSrc}
-                    alt={project.title}
+          <div className={styles.aboutImageCol}>
+            <div className={styles.avatarWrapper}>
+              <Image 
+                src="/assets/avatar.jpg"
+                alt="Personal Avatar"
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+          </div>
+
+          <div className={styles.aboutTextCol}>
+            <p className={styles.aboutText}>
+              跨领域UIUX设计师，<strong>独立负责</strong>智能硬件产品及核心业务线的<strong>UI设计</strong>与<strong>规范搭建</strong>，主导<strong>多款0-1项目</strong>与设计体系落地，在团队中承担关键视觉与交互设计职责。<br/><br/>
+              能够在<strong>缺少软件PD</strong>的情况下完成需求拆解与<strong>全流程设计</strong>；具备视觉优化与跨团队协作引导经验。
+            </p>
+            <div className={styles.aboutTags}>
+              <span>智能硬件UI</span>
+              <span>C端应用</span>
+              <span>B端系统</span>
+              <span>网页设计</span>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── Projects (In-Place Scrolljacking) ── */}
+      <section 
+        id="projects" 
+        className={styles.projects}
+        ref={projectsRef}
+      >
+        <h2 className={styles.projectsSectionTitle}>PROJECTS</h2>
+        <div className={styles.projectsContainer} ref={containerRef}>
+          
+          <div className={styles.cardsDisplayWrapper}>
+            <div className={styles.projectCardArea}>
+              {projects.map((project) => {
+                const isActive = project.slug === activeProject;
+
+                return (
+                <motion.div 
+                  key={project.slug}
+                  className={styles.absoluteCard}
+                  style={{
+                    zIndex: isActive ? 10 : 0,
+                    backgroundColor: project.bgColor,
+                    transformOrigin: 'center center',
+                    cursor: 'pointer'
+                  }}
+                  initial={false}
+                  animate={{
+                    y: isActive ? 0 : 20,
+                    scale: isActive ? 1 : 0.98,
+                    opacity: isActive ? 1 : 0,
+                    boxShadow: isActive ? `0 20px 60px -15px ${project.bgColor}` : '0 10px 30px rgba(0,0,0,0.05)'
+                  }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                >
+                  <Link 
+                    href={`/projects/${project.slug}`}
+                    style={{ textDecoration: 'none', display: 'block' }}
+                  >
+                    <div className={styles.cardInner}>
+                      <div className={styles.cardImageWrapper}>
+                        <div className={styles.cardImageInner}>
+                          <Image
+                            src={project.imageSrc}
+                            alt={project.title}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            className={styles.projectImage}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className={styles.cardInfo}>
+                        <div className={styles.titleRow}>
+                          <h3 className={styles.cardTitle}>{project.title}</h3>
+                          <div className={styles.cardTags}>
+                            {project.tags.map(tag => (
+                              <span key={tag}>{tag}</span>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className={styles.cardFooter}>
+                          <span className={styles.dots}>● ○</span>
+                          <span className={styles.footerText}>UI/UX</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={styles.projectsSidebar}>
+             <div className={styles.stickySpy}>
+               <ul className={styles.spyList}>
+                 {projects.map((project, i) => {
+                   const isActive = project.slug === activeProject;
+                   return (
+                    <li key={project.slug} className={styles.spyItemWrapper}>
+                      <div 
+                        className={`${styles.spyItem} ${isActive ? styles.spyActive : ''}`}
+                        onClick={() => handleNavClick(i)}
+                      >
+                        <div className={styles.spyDash} />
+                        <span className={styles.spyName}>{project.title}</span>
+                      </div>
+                      {i < projects.length - 1 && (
+                        <div className={styles.spyDots}>
+                          <div className={styles.spySolidDash} />
+                          <div className={styles.spySolidDash} />
+                          <div className={styles.spySolidDash} />
+                        </div>
+                      )}
+                    </li>
+                 )})}
+               </ul>
+             </div>
+          </div>
+
+        </div>
+      </section>
+      
+      {/* ── Contact Section ── */}
+      <section id="contact" className={styles.contactSection}>
+        <motion.div 
+          className={styles.contactWrapper}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className={styles.contactHeader}>
+            Contact<br/>
+            Information
+          </h2>
+          
+          <div className={styles.contactCard}>
+            <div className={styles.infoLeft}>
+              <div className={styles.infoBlock}>
+                <span className={styles.infoLabel}>电子邮件</span>
+                <span className={styles.infoValue}>winnie.winying@gmail.com</span>
+              </div>
+              <div className={styles.infoBlock}>
+                <span className={styles.infoLabel}>电话号码</span>
+                <span className={styles.infoValue}>+86 18319192613</span>
+              </div>
+            </div>
+            
+            <div className={styles.infoRight}>
+              <span className={styles.qrLabel}>微信</span>
+              <div className={styles.qrCodeBox}>
+                <div className={styles.qrPlaceholder}>
+                  <Image 
+                    src="/wechat-qr.png"
+                    alt="WeChat QR Code"
                     fill
-                    className={styles.projectImg}
-                    sizes="(max-width: 768px) 100vw, 58vw"
-                    priority={i === 0}
+                    style={{ objectFit: 'cover' }}
                   />
                 </div>
-
-                <div className={styles.projectContent}>
-                  <span className={styles.projectNumber}>{project.number}</span>
-                  <div className={styles.projectInfo}>
-                    <h2 className={styles.projectTitle}>{project.title}</h2>
-                    <p className={styles.projectTitleZh}>{project.titleZh}</p>
-                    <p className={styles.projectDesc}>{project.description}</p>
-                    <div className={styles.projectTags}>
-                      {project.tags.map((tag) => (
-                        <span key={tag} className={styles.projectTag}>{tag}</span>
-                      ))}
-                    </div>
-                    <div className={styles.projectMeta}>
-                      <span>{project.date}</span>
-                      <span className={styles.projectMetaDot}>·</span>
-                      <span className={styles.projectStatus}>{project.status}</span>
-                    </div>
-                    <span className={styles.projectCta}>查看案例 / View Case →</span>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── About teaser ── */}
-      <section className={styles.aboutTeaser}>
-        <div className={styles.aboutTeaserInner}>
-          <p className={styles.aboutTeaserLabel}>关于我 / About</p>
-          <p className={styles.aboutTeaserText}>
-            在深圳漫步者科技工作了 4 年，主导了从智能硬件到电商到 B 端系统等多类型产品的全流程设计。
-            擅长在缺少 PM 的情况下独立完成需求拆解与全流程交付。
-          </p>
-          <Link href="/about" className={styles.aboutTeaserLink}>
-            了解更多 / Learn more →
-          </Link>
-        </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
     </main>

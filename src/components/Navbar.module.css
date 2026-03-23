@@ -4,84 +4,139 @@
   left: 0;
   right: 0;
   z-index: 100;
-  height: 64px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 3rem;
-  background-color: var(--bg);
-  transition: box-shadow 300ms ease;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: transparent;
+  transition: all 400ms ease;
 }
 
-.nav.scrolled {
-  box-shadow: 0 1px 0 var(--border);
+.scrolled {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+  height: 80px;
 }
 
-/* Brand */
 .brand {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  text-decoration: none;
-}
-
-.brandEn {
-  font-family: var(--font-display), serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--fg);
-  letter-spacing: -0.01em;
-}
-
-.brandZh {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--muted);
-  letter-spacing: 0.02em;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-
-/* Links */
 .links {
   display: flex;
   align-items: center;
-  gap: 2.25rem;
+  gap: 0.5rem;
 }
 
 .link {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--fg);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--muted);
   text-decoration: none;
-  letter-spacing: 0.01em;
-  transition: color 200ms ease;
+  padding: 0.6rem 1.25rem;
+  border-radius: 999px;
+  transition: all 200ms ease;
+  background-color: transparent;
 }
 
 .link:hover {
-  color: var(--muted);
+  background-color: var(--surface);
 }
 
-.linkContact {
-  color: var(--muted);
+.linkActive {
+  background-color: var(--fg);
+  color: #ffffff;
+  font-weight: 700;
 }
 
-.linkContact:hover {
+/* Mobile Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 110;
+}
+
+.bar {
+  width: 24px;
+  height: 2px;
+  background-color: var(--fg);
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+.barOpenTop {
+  transform: rotate(45deg);
+}
+
+.barOpenMid {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.barOpenBot {
+  transform: rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.mobileMenu a {
+  padding: 1rem 20px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--fg);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.mobileMenu a:hover {
+  color: var(--neon-green);
 }
 
 @media (max-width: 768px) {
   .nav {
-    padding: 0 1.5rem;
-    height: 56px;
-  }
-  .brandZh {
-    display: none;
+    height: 80px;
   }
   .links {
-    gap: 1.5rem;
-  }
-  .linkContact {
     display: none;
+  }
+  .hamburger {
+    display: flex;
   }
 }

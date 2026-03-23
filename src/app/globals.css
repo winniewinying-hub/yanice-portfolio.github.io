@@ -1,19 +1,23 @@
 :root {
   --bg: #ffffff;
-  --fg: #0d0d0d;
-  --muted: #7a7a7a;
-  --faint: #b0b0b0;
-  --surface: #f6f6f4;
-  --border: #e8e8e8;
+  --fg: #1B1B36;
+  --muted: #5C5C77;
+  --faint: #8E8EA8;
+  --surface: #F4F6FB;
+  --border: #E0E4ED;
 
-  /* Accent trio */
-  --accent-orange: #e07b2a;
-  --accent-blue: #2a8de0;
-  --accent-teal: #06D6A0;
+  /* Accent colors from project cards */
+  --accent-orange: #FDE8CD;
+  --accent-pink: #FFD1D4;
+  --accent-blue: #D3E0FF;
+  --accent-cyan: #D5EFFF;
+  
+  /* The active accent */
+  --neon-green: #1B1B36; /* Replaced with navy for active states */
 
   /* Typography tokens */
-  --text-muted: #7a7a7a;
-  --text-light: #b0b0b0;
+  --text-muted: #5C5C77;
+  --text-light: #8E8EA8;
 
   /* Spacing base: 4px */
   --space-1: 0.25rem;
@@ -52,8 +56,8 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display), 'PingFang SC', 'STSong', serif;
-  font-weight: 600;
+  font-family: var(--font-body), 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-weight: 800;
   color: var(--fg);
   line-height: 1.15;
 }

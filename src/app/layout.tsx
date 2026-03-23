@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Noto_Serif_SC, Noto_Sans_SC } from "next/font/google";
+import { Noto_Serif_SC, Noto_Sans_SC, Unbounded } from "next/font/google";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import "./globals.css";
+
+const unbounded = Unbounded({
+  variable: "--font-unbounded",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const notoSerifSC = Noto_Serif_SC({
   variable: "--font-display",
@@ -30,10 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-Hans">
-      <body className={`${notoSerifSC.variable} ${notoSansSC.variable}`}>
+      <body className={`${notoSerifSC.variable} ${notoSansSC.variable} ${unbounded.variable}`}>
         <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );

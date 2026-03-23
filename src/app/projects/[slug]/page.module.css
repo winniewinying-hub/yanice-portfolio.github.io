@@ -1,137 +1,121 @@
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .main {
-  padding-top: 64px;
+  padding-top: 80px;
   min-height: 100vh;
-  background-color: var(--bg);
+  background-color: #fff;
   opacity: 0;
-  animation: fadeIn 400ms 100ms ease-out forwards;
+  animation: fadeIn 500ms 80ms ease-out forwards;
 }
 
-/* ── Cover ── */
-.coverWrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background-color: #e0e0e0;
-  overflow: hidden;
-}
-
-.coverImage {
-  object-fit: cover;
-}
-
-/* ── Container ── */
+/* ── Outer Container ── */
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 3rem 6rem;
+  padding: 0 20px 8rem;
 }
 
-/* ── Intro block ── */
-.intro {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  padding: 4rem 0;
-  border-bottom: 1px solid var(--border);
+/* ── Project Header ── */
+/* Figma: pt-200px pb-140px, two groups with gap-60px */
+.projectHeader {
+  padding: 7.5rem 0 5.25rem;   /* 200px top / 140px bottom scaled */
+  border-bottom: 1px solid rgba(43, 49, 81, 0.12);
   margin-bottom: 4rem;
-}
-
-.introLeft {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 3.75rem;                /* gap-60px */
 }
 
-.titleZh {
-  font-family: var(--font-body), sans-serif;
-  font-size: 0.8125rem;
-  color: var(--muted);
-  letter-spacing: 0.02em;
+/* ── Group 1: title + meta ── */
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;               /* gap-10px */
 }
 
+/* Line 1 – Big title */
+/* Figma: 80px, #2b3151, Alibaba PuHuiTi Bold, line-height:1 */
 .projectTitle {
-  font-family: var(--font-display), serif;
-  font-size: clamp(2rem, 4vw, 3.25rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.15;
-  color: var(--fg);
+  font-family: var(--font-body), 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: clamp(2.5rem, 6.5vw, 5rem);   /* 80px design, scale for web */
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #2b3151;
+  margin: 0;
 }
 
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.25rem;
-}
-
-.tag {
-  font-family: var(--font-body), sans-serif;
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.6rem;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  border-radius: 2px;
-}
-
-/* ── Metadata ── */
-.introRight {
+/* Lines 2-3 – "..." and "2023/WEB/UI/UX" in one block */
+/* Figma: 20px, rgba(43,49,81,0.6), line-height:1.5, letter-spacing:0.4px */
+.metaBlock {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  font-family: var(--font-body), 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: clamp(0.85rem, 1.3vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.025em;
+  color: rgba(43, 49, 81, 0.6);
+  margin: 0;
 }
 
-.metadataRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-.metadataCol h6 {
-  font-family: var(--font-body), sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: var(--faint);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.4rem;
-}
-
-.metadataCol p {
-  font-family: var(--font-body), sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--fg);
+.metaBlock p {
+  margin: 0;
   line-height: 1.5;
 }
 
-.description {
-  font-family: var(--font-body), sans-serif;
-  font-size: 1rem;
-  line-height: 1.85;
-  color: var(--muted);
+/* ── Group 2: badge + description ── */
+.labelGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;                /* gap-20px */
 }
 
-/* ── Images ── */
+/* Figma: bg #2b3151, px-20 py-12, border-radius 100px, text white 24px medium */
+.subtitleBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2b3151;
+  color: #ffffff;
+  font-family: var(--font-body), 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.5rem);   /* 24px */
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  padding: 0.75rem 1.25rem;    /* py-12 px-20 */
+  border-radius: 9999px;        /* rounded-full */
+}
+
+/* Figma: 20px, rgba(43,49,81,0.6), line-height:1.7, text-align:justify, tracking:0.4px */
+.description {
+  font-family: var(--font-body), 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: clamp(0.85rem, 1.3vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(43, 49, 81, 0.6);
+  letter-spacing: 0.025em;
+  text-align: justify;
+  margin: 0;
+  width: 100%;
+}
+
+/* ── Image Gallery ── */
 .contentSection {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 4px;
 }
 
 .contentImageWrapper {
   width: 100%;
-  background-color: var(--surface);
-  border-radius: 4px;
+  background-color: #f5f5f5;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -142,27 +126,18 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
-  .container {
-    padding: 0 1.5rem 4rem;
-  }
-
-  .intro {
-    grid-template-columns: 1fr;
+@media (max-width: 768px) {
+  .projectHeader {
+    padding: 4rem 0 3.5rem;
     gap: 2.5rem;
-    padding: 3rem 0;
-    margin-bottom: 3rem;
   }
 
-  .metadataRow {
-    grid-template-columns: 1fr 1fr;
+  .contentSection {
     gap: 1.25rem;
   }
-}
 
-@media (max-width: 480px) {
-  .metadataRow {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  .subtitleBadge {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
   }
 }
