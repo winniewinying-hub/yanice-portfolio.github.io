@@ -44,38 +44,40 @@ export default function Navbar() {
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
-      <Link href="/" className={styles.brand}>
-        YanicePortoflio
-      </Link>
-      
-      {/* Desktop Links */}
-      <div className={styles.links}>
-        <Link href="/" className={`${styles.link} ${activeHash === '/' ? styles.linkActive : ''}`}>Home</Link>
-        <Link href="/#about" className={`${styles.link} ${activeHash === '#about' ? styles.linkActive : ''}`}>About</Link>
-        <Link href="/#projects" className={`${styles.link} ${activeHash === '#projects' ? styles.linkActive : ''}`}>Projects</Link>
-        <Link href="/#contact" className={`${styles.link} ${activeHash === '#contact' ? styles.linkActive : ''}`}>Get In Touch</Link>
-      </div>
-
-      {/* Mobile Hamburger Icon */}
-      <button 
-        className={styles.hamburger} 
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        aria-label="Toggle menu"
-      >
-        <div className={`${styles.bar} ${mobileMenuOpen ? styles.barOpenTop : ''}`} />
-        <div className={`${styles.bar} ${mobileMenuOpen ? styles.barOpenMid : ''}`} />
-        <div className={`${styles.bar} ${mobileMenuOpen ? styles.barOpenBot : ''}`} />
-      </button>
-
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className={styles.mobileMenu}>
-          <Link href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-          <Link href="/#about" onClick={() => setMobileMenuOpen(false)}>About</Link>
-          <Link href="/#projects" onClick={() => setMobileMenuOpen(false)}>Projects</Link>
-          <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+      <div className={styles.navContainer}>
+        <Link href="/" className={styles.brand}>
+          YanicePortoflio
+        </Link>
+        
+        {/* Desktop Links */}
+        <div className={styles.links}>
+          <Link href="/" className={`${styles.link} ${activeHash === '/' ? styles.linkActive : ''}`}>Home</Link>
+          <Link href="/#about" className={`${styles.link} ${activeHash === '#about' ? styles.linkActive : ''}`}>About</Link>
+          <Link href="/#projects" className={`${styles.link} ${activeHash === '#projects' ? styles.linkActive : ''}`}>Projects</Link>
+          <Link href="/#contact" className={`${styles.link} ${activeHash === '#contact' ? styles.linkActive : ''}`}>Get In Touch</Link>
         </div>
-      )}
+
+        {/* Mobile Hamburger Icon */}
+        <button 
+          className={styles.hamburger} 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <div className={`${styles.bar} ${mobileMenuOpen ? styles.barOpenTop : ''}`} />
+          <div className={`${styles.bar} ${mobileMenuOpen ? styles.barOpenMid : ''}`} />
+          <div className={`${styles.bar} ${mobileMenuOpen ? styles.barOpenBot : ''}`} />
+        </button>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className={styles.mobileMenu}>
+            <Link href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+            <Link href="/#about" onClick={() => setMobileMenuOpen(false)}>About</Link>
+            <Link href="/#projects" onClick={() => setMobileMenuOpen(false)}>Projects</Link>
+            <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }
