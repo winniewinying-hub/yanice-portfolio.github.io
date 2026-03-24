@@ -109,7 +109,8 @@
 .contentSection {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  /* 1px @ 390vw → 4px @ 1200vw, linear interpolation */
+  gap: clamp(1px, -0.44px + 0.3704vw, 4px);
 }
 
 .contentImageWrapper {
@@ -132,9 +133,7 @@
     gap: 2.5rem;
   }
 
-  .contentSection {
-    gap: 1.25rem;
-  }
+
 
   .subtitleBadge {
     font-size: 0.95rem;
