@@ -63,7 +63,17 @@
 }
 
 .heroScroll {
-  margin-top: 6rem;
+  /* Fixed at bottom-left, always visible regardless of scroll */
+  position: fixed;
+  bottom: 60px;
+  /*
+   * Align left edge with navbar brand "YANICEPORTOFLIO":
+   * Navbar: max-width 1200px, margin auto, padding-left 20px
+   * Brand left = max(20px, (100vw - 1200px) / 2 + 20px)
+   */
+  left: max(20px, calc((100vw - 1200px) / 2 + 20px));
+  z-index: 50;
+
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -72,13 +82,18 @@
   font-weight: 500;
   color: var(--muted);
   text-decoration: none;
-  cursor: pointer;
-  transition: opacity 250ms ease;
+  pointer-events: none;   /* no longer a link — don't capture clicks */
+
+  /* Pill background */
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.heroScroll:hover {
-  opacity: 0.7;
-}
+/* Remove old hover state (no longer a link) */
 
 .scrollIcon {
   display: flex;
@@ -232,10 +247,9 @@
 .absoluteCard {
   grid-area: 1 / 1;
   width: 100%;
-  border-radius: 24px;
+  border-radius: 24px;        /* Figma desktop: rounded-24px */
   overflow: hidden;
-  box-shadow: 0 -10px 40px rgba(0,0,0,0.06);
-  padding: 16px;
+  padding: 16px;              /* Figma desktop: p-16px */
   height: max-content;
 }
 
@@ -247,12 +261,12 @@
 .cardImageWrapper {
   width: 100%;
   flex-shrink: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 160 / 90;     /* Figma: aspect-[160/90] */
   position: relative;
-  background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 22px;        /* Figma desktop: rounded-22px */
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  /* inner shadow from Figma: inset 0 0 60px rgba(0,0,0,0.05) */
+  box-shadow: inset 0 0 60px 0 rgba(0,0,0,0.05);
 }
 
 .cardImageInner {
@@ -266,10 +280,11 @@
 }
 
 .cardInfo {
-  padding: 1rem 0 0 0;
+  /* Figma desktop: px-10 py-20 gap-20 */
+  padding: 20px 10px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 20px;
 }
 
 .titleRow {
@@ -281,42 +296,50 @@
 }
 
 .cardTitle {
-  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  /* Figma desktop: 60px heavy, #2b3151 */
+  font-size: clamp(1.875rem, 4.5vw, 3.75rem);
   font-weight: 800;
-  color: var(--fg);
-  letter-spacing: -0.02em;
+  color: #2b3151;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .cardTags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: flex-start;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 .cardTags span {
-  padding: 0.5rem 1.25rem;
-  background-color: var(--fg);
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  /* Figma desktop: bg #2b3151, px-16 py-12, rounded-30, 14px regular white */
+  padding: 12px 16px;
+  background-color: #2b3151;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 400;
   color: #fff;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .cardFooter {
+  /* Figma: gap-10, 16px medium, #2b3151 */
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--fg);
-  font-size: 0.85rem;
-  font-weight: 700;
-  opacity: 0.8;
+  gap: 10px;
+  color: #2b3151;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .dots {
-  letter-spacing: 0.1em;
-  font-size: 0.9rem;
+  /* ● ○ indicator from Figma: 33×12 px dash vector */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: 2px;
 }
 
 /* SPY SIDEBAR */
@@ -416,7 +439,8 @@
 
 .contactHeader {
   font-family: var(--font-unbounded), sans-serif;
-  font-size: clamp(3.5rem, 6vw, 5rem);
+  /* clamp: min 2rem so it scales on tiny screens, max 5rem */
+  font-size: clamp(2rem, 6vw, 5rem);
   font-weight: 900;
   line-height: 1.1;
   color: #2b2b3a;
@@ -454,9 +478,12 @@
 
 .infoValue {
   font-family: var(--font-unbounded), sans-serif;
-  font-size: clamp(1.25rem, 2.5vw, 1.8rem);
+  font-size: clamp(1rem, 2.5vw, 1.8rem);
   font-weight: 800;
   color: #111;
+  overflow-wrap: break-word;   /* prevent long email from overflowing */
+  word-break: break-all;
+  min-width: 0;
 }
 
 .infoRight {
@@ -551,7 +578,7 @@
     height: auto;
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 20px;
   }
   
   .absoluteCard {
@@ -559,9 +586,9 @@
     transform: none !important;
     opacity: 1 !important;
     z-index: 1 !important;
-    border-radius: 16px;
-    padding: 12px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05) !important;
+    /* Figma mobile: rounded-16, p-10 */
+    border-radius: 16px !important;
+    padding: 10px !important;
   }
   
   .gridMask {
@@ -569,24 +596,46 @@
   }
   
   .cardImageWrapper {
-    aspect-ratio: 16 / 9;
+    /* Figma mobile: rounded-14 */
+    border-radius: 14px;
   }
 
   .titleRow {
+    /* On mobile: title and tags stack vertically */
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 10px;
+  }
+
+  .cardTitle {
+    /* Figma mobile: 30px heavy */
+    font-size: 30px;
+    white-space: normal;
+  }
+
+  .cardTags {
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .cardTags span {
+    /* Figma mobile: px-12 py-6, 12px */
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
   .cardInfo {
-    padding: 1rem 0.5rem 0.5rem;
+    /* Figma mobile: px-6 py-10 gap-20 */
+    padding: 10px 6px;
+    gap: 20px;
   }
 
   .contactCard {
     flex-direction: column;
     align-items: flex-start;
-    padding: 2.5rem;
-    gap: 3rem;
+    /* inner padding = 20px to stay consistent with outer section 20px margin */
+    padding: 1.25rem;
+    gap: 2rem;
   }
   
   .infoRight {

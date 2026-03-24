@@ -45,7 +45,7 @@ export default function Navbar() {
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
       <Link href="/" className={styles.brand}>
-        HIUWINGCHAN
+        YanicePortoflio
       </Link>
       
       {/* Desktop Links */}

@@ -124,15 +124,7 @@ export default function Home() {
           <h1 className={styles.heroNameZh}>我是陈晓颖。</h1>
           <h2 className={styles.heroRole}>是一名UI/UX设计师。</h2>
           
-          <motion.a 
-            href="#about"
-            className={styles.heroScroll}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            <span className={styles.scrollIcon}>↓</span> Scroll for more
-          </motion.a>
+
         </motion.div>
       </section>
 
@@ -317,6 +309,16 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* ── Fixed Scroll Indicator ── */}
+      <motion.div
+        className={styles.heroScroll}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+      >
+        <span className={styles.scrollIcon}>↓</span> Scroll for more
+      </motion.div>
 
     </main>
   );
