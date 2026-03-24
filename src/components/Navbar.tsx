@@ -46,7 +46,7 @@ export default function Navbar() {
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.navContainer}>
         <Link href="/" className={styles.brand}>
-          YanicePortoflio
+          YANICEPORTFOLIO
         </Link>
         
         {/* Desktop Links */}
