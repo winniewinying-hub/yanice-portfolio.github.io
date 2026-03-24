@@ -42,6 +42,7 @@ export default function Home() {
   const projectsRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeIndexRef = useRef(0);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
 
   useEffect(() => {
     activeIndexRef.current = projects.findIndex(p => p.slug === activeProject);
@@ -92,7 +93,21 @@ export default function Home() {
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    
+    // Observer to hide scroll indicator at contact section
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowScrollIndicator(!entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    const contactEl = document.getElementById('contact');
+    if (contactEl) observer.observe(contactEl);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      observer.disconnect();
+    };
   }, []);
 
   const handleNavClick = (index: number) => {
@@ -106,6 +121,46 @@ export default function Home() {
       window.scrollTo({ top: window.scrollY + rect.top - 88, behavior: 'smooth' });
     }
     setActiveProject(projects[index].slug);
+  };
+
+  const handleScrollNext = () => {
+    const aboutEl = document.getElementById('about');
+    const projectsEl = document.getElementById('projects');
+    const contactEl = document.getElementById('contact');
+    
+    if (!aboutEl || !projectsEl || !contactEl) return;
+
+    const scrollPos = window.scrollY;
+    const aboutTop = aboutEl.offsetTop - 100;
+    const projectsTop = projectsEl.offsetTop - 100;
+    const contactTop = contactEl.offsetTop - 100;
+
+    if (scrollPos < aboutTop) {
+      // At Hero -> About
+      aboutEl.scrollIntoView({ behavior: 'smooth' });
+    } else if (scrollPos < projectsTop) {
+      // At About -> Projects (first project)
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        window.scrollTo({ top: window.scrollY + rect.top - 88, behavior: 'smooth' });
+      } else {
+        projectsEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (scrollPos < contactTop - 100) {
+      // Inside Projects -> Next card or Contact
+      const currentIndex = activeIndexRef.current;
+      if (currentIndex < projects.length - 1) {
+        // Next card
+        setActiveProject(projects[currentIndex + 1].slug);
+        if (containerRef.current) {
+          const rect = containerRef.current.getBoundingClientRect();
+          window.scrollTo({ top: window.scrollY + rect.top - 88, behavior: 'smooth' });
+        }
+      } else {
+        // Last card -> Contact
+        contactEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
 
@@ -314,8 +369,10 @@ export default function Home() {
       <motion.div
         className={styles.heroScroll}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
+        animate={{ opacity: showScrollIndicator ? 1 : 0 }}
+        transition={{ duration: 0.4 }}
+        onClick={handleScrollNext}
+        style={{ pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
       >
         <span className={styles.scrollIcon}>↓</span> Scroll for more
       </motion.div>

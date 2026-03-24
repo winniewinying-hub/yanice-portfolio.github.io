@@ -82,7 +82,8 @@
   font-weight: 500;
   color: var(--muted);
   text-decoration: none;
-  pointer-events: none;   /* no longer a link — don't capture clicks */
+  pointer-events: auto;   /* re-enabled to allow clicking */
+  cursor: pointer;        /* show clickable state */
 
   /* Pill background */
   background-color: rgba(255, 255, 255, 0.8);
