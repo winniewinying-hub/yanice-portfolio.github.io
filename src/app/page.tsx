@@ -6,36 +6,7 @@ import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
 import styles from './page.module.css';
 
-const projects = [
-  {
-    slug: 'neomic-go',
-    title: 'NeoMic Go',
-    tags: ['智能硬件', '上位机'],
-    imageSrc: '/project_neomic.png',
-    bgColor: '#FFEED1'
-  },
-  {
-    slug: 'edifier-mall',
-    title: '漫步者商城',
-    tags: ['品牌', '应用程序', '网页'],
-    imageSrc: '/project_edifier.png',
-    bgColor: '#FFD1D4'
-  },
-  {
-    slug: 'ric-center',
-    title: 'RIC验配中心',
-    tags: ['B端业务系统', '医疗辅助设备', '网页'],
-    imageSrc: '/project_ric.png',
-    bgColor: '#D3E1FA'
-  },
-  {
-    slug: 'meeting-notes',
-    title: '会议记录',
-    tags: ['录音设备', '应用程序'],
-    imageSrc: '/project_meeting.png',
-    bgColor: '#DDF0FF'
-  }
-];
+import { projects } from '@/data/projects';
 
 export default function Home() {
   const [activeProject, setActiveProject] = useState(projects[0].slug);
