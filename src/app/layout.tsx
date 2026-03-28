@@ -11,16 +11,16 @@ const unbounded = Unbounded({
 
 const notoSerifSC = Noto_Serif_SC({
   variable: "--font-display",
-  subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
+  preload: false,
 });
 
 const notoSansSC = Noto_Sans_SC({
   variable: "--font-body",
-  subsets: ["latin"],
   weight: ["300", "400", "500"],
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
