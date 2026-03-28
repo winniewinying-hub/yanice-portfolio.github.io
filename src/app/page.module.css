@@ -128,10 +128,10 @@
 .aboutTitle {
   grid-area: title;
   font-family: var(--font-unbounded), var(--font-body), sans-serif;
-  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
-  line-height: 1.05;
-  color: var(--fg);
+  line-height: 1.1;
+  color: #2b3151;
   letter-spacing: -0.01em;
   margin: 0;
   align-self: end;
@@ -218,9 +218,10 @@
 
 .projectsSectionTitle {
   font-family: var(--font-unbounded), var(--font-body), sans-serif;
-  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
-  color: var(--fg);
+  line-height: 1.1;
+  color: #2b3151;
   margin-bottom: 2rem;
   letter-spacing: -0.01em;
 }
@@ -439,13 +440,13 @@
 }
 
 .contactHeader {
-  font-family: var(--font-unbounded), sans-serif;
-  /* clamp: min 2rem so it scales on tiny screens, max 5rem */
-  font-size: clamp(2rem, 6vw, 5rem);
+  font-family: var(--font-unbounded), var(--font-body), sans-serif;
+  font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
   line-height: 1.1;
-  color: #2b2b3a;
+  color: #2b3151;
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .contactCard {
