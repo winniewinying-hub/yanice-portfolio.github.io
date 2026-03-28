@@ -31,35 +31,38 @@
 
 .heroHello {
   color: #2B3151;
-  leading-trim: both;
-  text-edge: cap;
-  font-family: "LogoSC Unbounded Sans", var(--font-unbounded), var(--font-body), sans-serif;
+  font-family: var(--font-logo-sc), var(--font-unbounded), var(--font-body), sans-serif;
   font-size: clamp(36px, calc(13.7px + 5.94vw), 85px);
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-weight: 900;
+  line-height: 1.1;
   margin: 0;
 }
 
 .heroNameZh {
   color: #2B3151;
-  font-family: "LogoSC Unbounded Sans", var(--font-unbounded), var(--font-body), sans-serif;
+  font-family: var(--font-body), "Noto Sans SC", "PingFang SC", sans-serif;
   font-size: clamp(56px, calc(22.4px + 8.97vw), 130px);
   font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
+  font-weight: 700;
+  line-height: 1.1;
   margin: 0;
 }
 
 .heroRole {
   color: #2B3151;
-  font-family: "LogoSC Unbounded Sans", var(--font-unbounded), var(--font-body), sans-serif;
+  font-family: var(--font-body), "Noto Sans SC", "PingFang SC", sans-serif;
   font-size: clamp(16px, calc(6px + 2.67vw), 38px);
   font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
+  font-weight: 500;
+  line-height: 1.1;
   margin: 0;
   margin-top: clamp(6px, calc(3.4px + 0.97vw), 15px);
+}
+
+.specialText {
+  font-family: var(--font-logo-sc), var(--font-unbounded), sans-serif;
+  font-weight: 900;
 }
 
 .heroScroll {
@@ -127,7 +130,7 @@
 
 .aboutTitle {
   grid-area: title;
-  font-family: var(--font-unbounded), var(--font-body), sans-serif;
+  font-family: var(--font-logo-sc), var(--font-unbounded), var(--font-body), sans-serif;
   font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
   line-height: 1.1;
@@ -217,7 +220,7 @@
 }
 
 .projectsSectionTitle {
-  font-family: var(--font-unbounded), var(--font-body), sans-serif;
+  font-family: var(--font-logo-sc), var(--font-unbounded), var(--font-body), sans-serif;
   font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
   line-height: 1.1;
@@ -440,7 +443,7 @@
 }
 
 .contactHeader {
-  font-family: var(--font-unbounded), var(--font-body), sans-serif;
+  font-family: var(--font-logo-sc), var(--font-unbounded), var(--font-body), sans-serif;
   font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
   line-height: 1.1;

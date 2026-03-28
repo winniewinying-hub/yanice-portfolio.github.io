@@ -148,7 +148,9 @@ export default function Home() {
         >
           <h1 className={styles.heroHello}>HELLO,</h1>
           <h1 className={styles.heroNameZh}>我是陈晓颖。</h1>
-          <h2 className={styles.heroRole}>是一名UI/UX设计师。</h2>
+          <h2 className={styles.heroRole}>
+            是一名<span className={styles.specialText}>UI/UX</span>设计师。
+          </h2>
           
 
         </motion.div>
