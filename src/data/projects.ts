@@ -29,18 +29,18 @@ export const projects: Project[] = [
     bgColor: '#FFEED1'
   },
   {
-    slug: 'edifier-mall',
-    title: '漫步者商城',
-    subtitle: 'EDIFIER Mall : 0–1 Product Design',
-    year: '2023',
-    isWeb: true,
+    slug: 'meeting-notes',
+    title: '会议记录',
+    subtitle: 'Meeting Notes : 0–1 Product Design',
+    year: '2024',
+    isWeb: false,
     isUI: true,
     isUX: true,
-    description: '随着品牌战略升级，需要搭建自营商城渠道，实现品牌直连用户、加强会员运营与售后闭环。从0到1搭建官方商城，覆盖商品展示、购物转化、会员体系与多端使用场景。在缺少PM的情况下承担产品向设计角色，构建商城产品结构与购物决策链路，并与开发深度协作保证体验细节还原与交付质量。',
-    folder: 'edifier-mall',
-    imageSrc: '/project_edifier.png',
-    tags: ['品牌', '应用程序', '网页'],
-    bgColor: '#FFD1D4'
+    description: '为录音设备配套研发的应用程序，支持会议录音、实时转写与笔记整理功能，帮助用户高效管理会议内容。负责产品功能规划、界面设计与交互流程设计。',
+    folder: 'meeting-notes',
+    imageSrc: '/project_meeting.png',
+    tags: ['录音设备', '应用程序'],
+    bgColor: '#DDF0FF'
   },
   {
     slug: 'ric-center',
@@ -57,17 +57,17 @@ export const projects: Project[] = [
     bgColor: '#D3E1FA'
   },
   {
-    slug: 'meeting-notes',
-    title: '会议记录',
-    subtitle: 'Meeting Notes : 0–1 Product Design',
-    year: '2024',
-    isWeb: false,
+    slug: 'edifier-mall',
+    title: '漫步者商城',
+    subtitle: 'EDIFIER Mall : 0–1 Product Design',
+    year: '2023',
+    isWeb: true,
     isUI: true,
     isUX: true,
-    description: '为录音设备配套研发的应用程序，支持会议录音、实时转写与笔记整理功能，帮助用户高效管理会议内容。负责产品功能规划、界面设计与交互流程设计。',
-    folder: 'meeting-notes',
-    imageSrc: '/project_meeting.png',
-    tags: ['录音设备', '应用程序'],
-    bgColor: '#DDF0FF'
+    description: '随着品牌战略升级，需要搭建自营商城渠道，实现品牌直连用户、加强会员运营与售后闭环。从0到1搭建官方商城，覆盖商品展示、购物转化、会员体系与多端使用场景。在缺少PM的情况下承担产品向设计角色，构建商城产品结构与购物决策链路，并与开发深度协作保证体验细节还原与交付质量。',
+    folder: 'edifier-mall',
+    imageSrc: '/project_edifier.png',
+    tags: ['品牌', '应用程序', '网页'],
+    bgColor: '#FFD1D4'
   }
 ];

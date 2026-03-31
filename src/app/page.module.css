@@ -646,4 +646,19 @@
   .infoRight {
     align-items: flex-start;
   }
+
+  /* Full-width section titles for mobile */
+  .aboutTitle, 
+  .projectsSectionTitle, 
+  .contactHeader {
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    width: calc(100% + 40px) !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    font-size: clamp(2rem, 12vw, 4rem) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+  }
 }

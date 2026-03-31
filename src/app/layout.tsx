@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Serif_SC, Noto_Sans_SC, Unbounded } from "next/font/google";
 import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
+import ImageProtection from "@/components/ImageProtection";
 import "./globals.css";
 
 const logoSC = localFont({
@@ -44,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="zh-Hans">
       <body className={`${notoSerifSC.variable} ${notoSansSC.variable} ${unbounded.variable} ${logoSC.variable}`}>
+        <ImageProtection />
         <Navbar />
         {children}
       </body>

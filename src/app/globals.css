@@ -68,4 +68,18 @@ p {
 
 img {
   display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+/* Bypass for site owner */
+.allow-download img {
+  user-select: auto !important;
+  -webkit-user-drag: auto !important;
+  user-drag: auto !important;
+  pointer-events: auto !important;
 }
