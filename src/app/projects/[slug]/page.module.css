@@ -6,7 +6,7 @@
 .main {
   padding-top: 80px;
   min-height: 100vh;
-  background-color: #fff;
+  background-color: var(--bg);
   opacity: 0;
   animation: fadeIn 500ms 80ms ease-out forwards;
 }
@@ -23,7 +23,7 @@
 /* Figma: pt-200px pb-140px, two groups with gap-60px */
 .projectHeader {
   padding: 7.5rem 0 5.25rem;   /* 200px top / 140px bottom scaled */
-  border-bottom: 1px solid rgba(43, 49, 81, 0.12);
+  border-bottom: 1px solid var(--border);
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #2b3151;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -59,7 +59,8 @@
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0.025em;
-  color: rgba(43, 49, 81, 0.6);
+  color: var(--text-primary);
+  opacity: 0.7;
   margin: 0;
 }
 
@@ -81,8 +82,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #2b3151;
-  color: #ffffff;
+  background-color: var(--fg);
+  color: var(--bg);
   font-family: var(--font-body), 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
   font-size: clamp(0.9rem, 1.5vw, 1.5rem);   /* 24px */
   font-weight: 600;
@@ -98,7 +99,8 @@
   font-size: clamp(0.85rem, 1.3vw, 1.25rem);
   font-weight: 400;
   line-height: 1.7;
-  color: rgba(43, 49, 81, 0.6);
+  color: var(--text-primary);
+  opacity: 0.8;
   letter-spacing: 0.025em;
   text-align: justify;
   margin: 0;
@@ -115,7 +117,7 @@
 
 .contentImageWrapper {
   width: 100%;
-  background-color: #f5f5f5;
+  background-color: var(--surface);
   border-radius: 0;
   overflow: hidden;
 }
@@ -145,7 +147,7 @@
 .relatedSection {
   margin-top: 8rem;
   padding-top: 4rem;
-  border-top: 1px solid rgba(43, 49, 81, 0.1);
+  border-top: 1px solid var(--border);
   text-align: center;
 }
 
@@ -153,14 +155,14 @@
   font-family: var(--font-body), 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2b3151;
+  color: var(--text-primary);
   margin-bottom: 3.5rem;
   letter-spacing: 0.05em;
 }
 
 .relatedGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   width: 100%;
 }
@@ -172,6 +174,7 @@
   gap: clamp(10px, 1.5vw, 1.25rem);
   position: relative;
   z-index: 1;
+  width: 100%;
 }
 
 .relatedCard:hover {
@@ -183,7 +186,7 @@
   aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
-  background-color: #f5f5f5;
+  background-color: var(--surface);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease;
   position: relative;
@@ -203,11 +206,16 @@
   font-family: var(--font-body), 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
   font-size: clamp(12px, 1.5vw, 1.125rem);
   font-weight: 600;
-  color: #2b3151;
+  color: #2b3151; /* Default for light mode */
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.4s ease;
+}
+
+:global([data-theme='dark']) .relatedCardTitle {
+  color: var(--fg);
 }
 
 @media (max-width: 900px) {

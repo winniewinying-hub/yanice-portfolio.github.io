@@ -55,19 +55,5 @@ export const projects: Project[] = [
     imageSrc: '/project_ric.png',
     tags: ['B端业务系统', '医疗辅助设备', '网页'],
     bgColor: '#D3E1FA'
-  },
-  {
-    slug: 'edifier-mall',
-    title: '漫步者商城',
-    subtitle: 'EDIFIER Mall : 0–1 Product Design',
-    year: '2023',
-    isWeb: true,
-    isUI: true,
-    isUX: true,
-    description: '随着品牌战略升级，需要搭建自营商城渠道，实现品牌直连用户、加强会员运营与售后闭环。从0到1搭建官方商城，覆盖商品展示、购物转化、会员体系与多端使用场景。在缺少PM的情况下承担产品向设计角色，构建商城产品结构与购物决策链路，并与开发深度协作保证体验细节还原与交付质量。',
-    folder: 'edifier-mall',
-    imageSrc: '/project_edifier.png',
-    tags: ['品牌', '应用程序', '网页'],
-    bgColor: '#FFD1D4'
   }
 ];

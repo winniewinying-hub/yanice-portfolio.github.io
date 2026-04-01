@@ -1,11 +1,7 @@
-/* ════════════════════════════════
-   MAIN
-════════════════════════════════ */
 .main {
   background-color: var(--bg);
   min-height: 100vh;
   color: var(--fg);
-  overflow-x: hidden;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -30,7 +26,7 @@
 }
 
 .heroHello {
-  color: #2B3151;
+  color: var(--text-primary);
   font-family: var(--font-logo-sc), var(--font-unbounded), var(--font-body), sans-serif;
   font-size: clamp(36px, calc(13.7px + 5.94vw), 85px);
   font-style: normal;
@@ -40,7 +36,7 @@
 }
 
 .heroNameZh {
-  color: #2B3151;
+  color: var(--text-primary);
   font-family: var(--font-body), "Noto Sans SC", "PingFang SC", sans-serif;
   font-size: clamp(56px, calc(22.4px + 8.97vw), 130px);
   font-style: normal;
@@ -50,7 +46,7 @@
 }
 
 .heroRole {
-  color: #2B3151;
+  color: var(--text-primary);
   font-family: var(--font-body), "Noto Sans SC", "PingFang SC", sans-serif;
   font-size: clamp(16px, calc(6px + 2.67vw), 38px);
   font-style: normal;
@@ -58,6 +54,11 @@
   line-height: 1.1;
   margin: 0;
   margin-top: clamp(6px, calc(3.4px + 0.97vw), 15px);
+}
+
+:global([data-theme='dark']) .heroHello,
+:global([data-theme='dark']) .heroRole {
+  opacity: 0.8;
 }
 
 .specialText {
@@ -89,12 +90,19 @@
   cursor: pointer;        /* show clickable state */
 
   /* Pill background */
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  background-color: rgba(244, 246, 251, 0.4); /* Light mode translucent surface */
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
   padding: 0.5rem 1rem;
   border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme='dark']) .heroScroll {
+  background-color: rgba(34, 34, 34, 0.4);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Remove old hover state (no longer a link) */
@@ -134,7 +142,7 @@
   font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
   line-height: 1.1;
-  color: #2b3151;
+  color: var(--text-primary);
   letter-spacing: -0.01em;
   margin: 0;
   align-self: end;
@@ -165,6 +173,10 @@
   line-height: 2;
   margin-bottom: 2.5rem;
   max-width: 500px;
+}
+
+:global([data-theme='dark']) .aboutText {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .aboutText strong {
@@ -211,6 +223,10 @@
   padding: 2rem;
 }
 
+:global([data-theme='dark']) .avatarPlaceholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
 /* ════════════════════════════════
    PROJECTS (STICKY)
 ════════════════════════════════ */
@@ -224,7 +240,7 @@
   font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
   line-height: 1.1;
-  color: #2b3151;
+  color: var(--text-primary);
   margin-bottom: 2rem;
   letter-spacing: -0.01em;
 }
@@ -304,7 +320,7 @@
   /* Figma desktop: 60px heavy, #2b3151 */
   font-size: clamp(1.875rem, 4.5vw, 3.75rem);
   font-weight: 800;
-  color: #2b3151;
+  color: #2b3151; /* Fixed dark color for cards */
   line-height: 1;
   white-space: nowrap;
 }
@@ -323,7 +339,7 @@
   border-radius: 30px;
   font-size: 14px;
   font-weight: 400;
-  color: #fff;
+  color: #ffffff;
   line-height: 1;
   white-space: nowrap;
 }
@@ -383,7 +399,11 @@
 }
 
 .spyActive {
-  color: #2b2b3a;
+  color: var(--fg);
+}
+
+:global([data-theme='dark']) .spyActive {
+  color: #ffffff;
 }
 
 .spyDash {
@@ -394,8 +414,16 @@
   transition: all 200ms ease;
 }
 
+:global([data-theme='dark']) .spyDash {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 .spyActive .spyDash {
-  background-color: #2b2b3a;
+  background-color: var(--fg);
+}
+
+:global([data-theme='dark']) .spyActive .spyDash {
+  background-color: #ffffff;
 }
 
 .spyName {
@@ -405,8 +433,16 @@
   transition: all 200ms ease;
 }
 
+:global([data-theme='dark']) .spyName {
+  color: rgba(255, 255, 255, 0.3);
+}
+
 .spyActive .spyName {
   font-weight: 700;
+}
+
+:global([data-theme='dark']) .spyActive .spyName {
+  color: #ffffff;
 }
 
 .spyDots {
@@ -424,6 +460,10 @@
   background-color: #e5e7eb;
 }
 
+:global([data-theme='dark']) .spySolidDash {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 /* ════════════════════════════════
    CONTACT FOOTER (Clean White)
 ════════════════════════════════ */
@@ -431,7 +471,7 @@
   padding: 8rem 20px;
   display: flex;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: var(--bg);
 }
 
 .contactWrapper {
@@ -447,20 +487,20 @@
   font-size: clamp(1.75rem, 7.5vw, 5.5rem);
   font-weight: 900;
   line-height: 1.1;
-  color: #2b3151;
+  color: var(--text-primary);
   margin: 0;
   letter-spacing: -0.01em;
 }
 
 .contactCard {
-  background-color: #ffffff;
-  border: 1px solid #f0f0f0;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 3rem 4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 40px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.05);
 }
 
 .infoLeft {
@@ -485,7 +525,7 @@
   font-family: var(--font-unbounded), sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.8rem);
   font-weight: 800;
-  color: #111;
+  color: var(--fg);
   overflow-wrap: break-word;   /* prevent long email from overflowing */
   word-break: break-all;
   min-width: 0;

@@ -1,6 +1,7 @@
 :root {
   --bg: #ffffff;
   --fg: #1B1B36;
+  --text-primary: #1B1B36;
   --muted: #5C5C77;
   --faint: #8E8EA8;
   --surface: #F4F6FB;
@@ -30,6 +31,35 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
+
+  /* Nav specific */
+  --nav-link: var(--muted);
+  --nav-active-text: #ffffff;
+
+  --transition-theme: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+[data-theme='dark'] {
+  --bg: #151515;
+  --fg: #ffffff;
+  --text-primary: #ffffff;
+  --muted: #A0A0C0;
+  --faint: #5C5C77;
+  --surface: #222222;
+  --border: rgba(255, 255, 255, 0.1);
+  
+  --text-muted: #A0A0C0;
+  --text-light: #5C5C77;
+
+  /* Adjust accent colors slightly for dark background if needed */
+  --accent-orange: #2C1F10;
+  --accent-blue: #101B30;
+  --accent-cyan: #0E222E;
+  --accent-pink: #2E1517;
+
+  /* Nav specific dark */
+  --nav-link: rgba(255, 255, 255, 0.6);
+  --nav-active-text: #151515;
 }
 
 html,
@@ -42,6 +72,7 @@ body {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: var(--transition-theme);
 }
 
 * {

@@ -4,11 +4,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
+import { useTheme } from '@/components/ThemeProvider';
 import styles from './page.module.css';
 
 import { projects } from '@/data/projects';
 
 export default function Home() {
+  const { theme } = useTheme();
   const [activeProject, setActiveProject] = useState(projects[0].slug);
   const projectsRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -221,7 +223,11 @@ export default function Home() {
                     y: isActive ? 0 : 20,
                     scale: isActive ? 1 : 0.98,
                     opacity: isActive ? 1 : 0,
-                    boxShadow: isActive ? `0 20px 60px -15px ${project.bgColor}` : '0 10px 30px rgba(0,0,0,0.05)'
+                    boxShadow: isActive 
+                      ? (theme === 'dark' 
+                          ? `0 20px 80px -10px rgba(0, 0, 0, 0.7)` 
+                          : `0 20px 60px -15px ${project.bgColor}`)
+                      : '0 10px 30px rgba(0,0,0,0.05)'
                   }}
                   transition={{ duration: 0.4, ease: "easeInOut" }}
                 >
