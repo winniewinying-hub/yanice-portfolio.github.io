@@ -90,13 +90,17 @@
   cursor: pointer;        /* show clickable state */
 
   /* Pill background */
-  background-color: rgba(244, 246, 251, 0.4); /* Light mode translucent surface */
-  backdrop-filter: blur(60px);
-  -webkit-backdrop-filter: blur(60px);
+  background-color: rgba(244, 246, 251, 0.5); /* Light mode translucent surface */
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   padding: 0.5rem 1rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  
+  /* Trigger GPU layer for backdrop-filter on fixed elements */
+  transform: translateZ(0);
+  will-change: backdrop-filter;
 }
 
 :global([data-theme='dark']) .heroScroll {
@@ -113,10 +117,15 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  background-color: var(--surface);
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   font-size: 0.75rem;
   color: var(--fg);
+}
+
+:global([data-theme='dark']) .scrollIcon {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ════════════════════════════════

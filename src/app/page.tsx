@@ -138,7 +138,8 @@ export default function Home() {
 
 
   return (
-    <main className={styles.main}>
+    <>
+      <main className={styles.main}>
       
       {/* ── Hero ── */}
       <section className={styles.hero}>
@@ -344,6 +345,8 @@ export default function Home() {
         </motion.div>
       </section>
 
+      </main>
+      
       {/* ── Fixed Scroll Indicator ── */}
       <motion.div
         className={styles.heroScroll}
@@ -355,7 +358,6 @@ export default function Home() {
       >
         <span className={styles.scrollIcon}>↓</span> Scroll for more
       </motion.div>
-
-    </main>
+    </>
   );
 }
