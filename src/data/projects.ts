@@ -32,7 +32,7 @@ export const projects: Project[] = [
     slug: 'meeting-notes',
     title: '会议记录',
     subtitle: 'Meeting Notes : 0–1 Product Design',
-    year: '2024',
+    year: '2025',
     isWeb: false,
     isUI: true,
     isUX: true,

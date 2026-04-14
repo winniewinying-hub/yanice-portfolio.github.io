@@ -277,10 +277,15 @@
 .absoluteCard {
   grid-area: 1 / 1;
   width: 100%;
-  border-radius: 24px;        /* Figma desktop: rounded-24px */
+  border-radius: 24px;
   overflow: hidden;
-  padding: 16px;              /* Figma desktop: p-16px */
+  padding: 16px;
   height: max-content;
+  transition: box-shadow 0.35s ease;
+}
+
+:global([data-theme='dark']) .absoluteCard:hover {
+  box-shadow: 0 0 40px 4px rgba(255, 255, 255, 0.07), 0 0 80px 8px rgba(180, 180, 255, 0.04);
 }
 
 .cardInner {
