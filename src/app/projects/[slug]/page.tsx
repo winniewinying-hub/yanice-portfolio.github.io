@@ -6,14 +6,39 @@ import path from 'path';
 import { projects } from '@/data/projects';
 import styles from './page.module.css';
 
-function getImagesForProject(folder: string): string[] {
+type MediaEntry = { src: string; isVideo: boolean; stem: string };
+
+function getMediaForProject(folder: string): MediaEntry[] {
   const assetsDir = path.join(process.cwd(), 'public', 'assets', folder);
   if (!fs.existsSync(assetsDir)) return [];
-  return fs
-    .readdirSync(assetsDir)
+
+  const files = fs.readdirSync(assetsDir);
+
+  // Collect all images and videos, keyed by stem (filename without extension)
+  const map = new Map<string, MediaEntry>();
+
+  // First pass: images
+  files
     .filter((f) => /\.(png|jpe?g|webp|gif|avif)$/i.test(f))
-    .sort()
-    .map((f) => `/assets/${folder}/${f}`);
+    .forEach((f) => {
+      const stem = f.replace(/\.[^.]+$/, '');
+      map.set(stem, { src: `/assets/${folder}/${f}`, isVideo: false, stem });
+    });
+
+  // Second pass: MP4s override same-stem images
+  files
+    .filter((f) => /\.mp4$/i.test(f))
+    .forEach((f) => {
+      const stem = f.replace(/\.[^.]+$/, '');
+      map.set(stem, { src: `/assets/${folder}/${f}`, isVideo: true, stem });
+    });
+
+  // Sort by leading number in filename, then alphabetically
+  return Array.from(map.values()).sort((a, b) => {
+    const numA = parseInt(a.stem.match(/\d+/)?.[0] ?? '0', 10);
+    const numB = parseInt(b.stem.match(/\d+/)?.[0] ?? '0', 10);
+    return numA !== numB ? numA - numB : a.stem.localeCompare(b.stem);
+  });
 }
 
 export default async function ProjectPage({
@@ -26,7 +51,7 @@ export default async function ProjectPage({
 
   if (!project) notFound();
 
-  const images = getImagesForProject(project.folder);
+  const media = getMediaForProject(project.folder);
   const otherProjects = projects.filter(p => p.slug !== slug).slice(0, 3);
 
   // Build the capability string e.g. "2023/WEB/UI/UX"
@@ -57,17 +82,28 @@ export default async function ProjectPage({
           </div>
         </header>
 
-        {/* ── Image Gallery ── */}
+        {/* ── Media Gallery ── */}
         <div className={styles.contentSection}>
-          {images.map((img, index) => (
+          {media.map((entry, index) => (
             <div key={index} className={styles.contentImageWrapper}>
-              <Image
-                src={img}
-                alt={`${project.title} ${index + 1}`}
-                width={1920}
-                height={1080}
-                className={styles.contentImage}
-              />
+              {entry.isVideo ? (
+                <video
+                  src={entry.src}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className={styles.contentImage}
+                />
+              ) : (
+                <Image
+                  src={entry.src}
+                  alt={`${project.title} ${index + 1}`}
+                  width={1920}
+                  height={1080}
+                  className={styles.contentImage}
+                />
+              )}
             </div>
           ))}
         </div>
