@@ -4,9 +4,14 @@ import { notFound } from 'next/navigation';
 import fs from 'fs';
 import path from 'path';
 import { projects } from '@/data/projects';
+import VideoPlayer from '@/components/VideoPlayer';
 import styles from './page.module.css';
 
 type MediaEntry = { src: string; isVideo: boolean; stem: string };
+
+// Allow dynamic slugs even when `generateStaticParams` is present.
+// This avoids dev-time 404s when Next restricts which params are considered valid.
+export const dynamicParams = true;
 
 function getMediaForProject(folder: string): MediaEntry[] {
   const assetsDir = path.join(process.cwd(), 'public', 'assets', folder);
@@ -46,10 +51,19 @@ export default async function ProjectPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-  const project = projects.find(p => p.slug === slug);
+  const resolvedParams = await params;
+  const rawSlug = (resolvedParams as { slug?: string | string[] }).slug;
+  const slug = Array.isArray(rawSlug) ? rawSlug[0] : rawSlug;
+  const normalizedSlug =
+    typeof slug === 'string' ? decodeURIComponent(slug).replace(/^\/+|\/+$/g, '') : '';
 
-  if (!project) notFound();
+  const project = projects.find(
+    (p) => p.slug === normalizedSlug || (typeof slug === 'string' && p.slug === slug),
+  );
+
+  if (!project) {
+    notFound();
+  }
 
   const media = getMediaForProject(project.folder);
   const otherProjects = projects.filter(p => p.slug !== slug).slice(0, 3);
@@ -87,12 +101,8 @@ export default async function ProjectPage({
           {media.map((entry, index) => (
             <div key={index} className={styles.contentImageWrapper}>
               {entry.isVideo ? (
-                <video
+                <VideoPlayer
                   src={entry.src}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
                   className={styles.contentImage}
                 />
               ) : (

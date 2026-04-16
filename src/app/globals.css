@@ -117,3 +117,9 @@ img {
   -webkit-user-drag: auto !important;
   pointer-events: auto !important;
 }
+
+/* Persist Next.js DevTools portal positioning tweaks from the browser preview */
+nextjs-portal {
+  left: initial !important;
+  top: initial !important;
+}

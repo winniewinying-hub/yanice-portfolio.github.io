@@ -36,10 +36,10 @@ export const projects: Project[] = [
     isWeb: false,
     isUI: true,
     isUX: true,
-    description: '为录音设备配套研发的应用程序，支持会议录音、实时转写与笔记整理功能，帮助用户高效管理会议内容。负责产品功能规划、界面设计与交互流程设计。',
+    description: '为AI录音耳机配套研发的应用程序，支持会议录音、实时转写与笔记整理功能，帮助用户高效管理会议内容。负责产品功能规划、界面设计与交互流程设计。',
     folder: 'meeting-notes',
     imageSrc: '/project_meeting.png',
-    tags: ['录音设备', '应用程序'],
+    tags: ['AI录音耳机', '应用程序'],
     bgColor: '#DDF0FF'
   },
   {
