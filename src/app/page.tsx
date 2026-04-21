@@ -11,58 +11,44 @@ import { projects } from '@/data/projects';
 
 export default function Home() {
   const { theme } = useTheme();
-  const [activeProject, setActiveProject] = useState(projects[0].slug);
+  const [virtualIndex, setVirtualIndex] = useState(0);
   const projectsRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const activeIndexRef = useRef(0);
+  const virtualIndexRef = useRef(0);
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
 
+  // Derived state
+  const total = projects.length;
+  const activeIndex = ((virtualIndex % total) + total) % total;
+
   useEffect(() => {
-    activeIndexRef.current = projects.findIndex(p => p.slug === activeProject);
-  }, [activeProject]);
+    virtualIndexRef.current = virtualIndex;
+  }, [virtualIndex]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth <= 768) return;
-
-    const projectsEl = projectsRef.current;
-    if (!projectsEl) return;
-
     let isScrolling = false;
 
     const handleWheel = (e: WheelEvent) => {
+      // If predominantly vertical scroll, allow natural page scroll
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) return;
+
       const containerEl = containerRef.current;
       if (!containerEl) return;
 
-      const containerRect = containerEl.getBoundingClientRect();
-      const currentIndex = activeIndexRef.current;
-      const total = projects.length;
+      const rect = containerEl.getBoundingClientRect();
+      // Intercept horizontal wheel (trackpad swipe) if mouse is over carousel
+      if (rect.top > window.innerHeight || rect.bottom < 0) return;
 
-      // Only intercept while the card container is "docked" near the navbar
-      const isDocked = containerRect.top > -40 && containerRect.top < 160;
-      if (!isDocked) return;
-
-      const snapY = window.scrollY + containerRect.top - 88;
-
-      if (e.deltaY > 0 && currentIndex < total - 1) {
-        // Scroll down → next card
-        e.preventDefault();
-        window.scrollTo({ top: snapY, behavior: 'instant' });
+      if (Math.abs(e.deltaX) > 10) {
+        e.preventDefault(); 
         if (!isScrolling) {
           isScrolling = true;
-          setActiveProject(projects[currentIndex + 1].slug);
-          setTimeout(() => (isScrolling = false), 600);
-        }
-      } else if (e.deltaY < 0 && currentIndex > 0) {
-        // Scroll up → previous card
-        e.preventDefault();
-        window.scrollTo({ top: snapY, behavior: 'instant' });
-        if (!isScrolling) {
-          isScrolling = true;
-          setActiveProject(projects[currentIndex - 1].slug);
-          setTimeout(() => (isScrolling = false), 600);
+          if (e.deltaX > 0) setVirtualIndex(v => v + 1);
+          else setVirtualIndex(v => v - 1);
+          setTimeout(() => (isScrolling = false), 400); // Debounce
         }
       }
-      // else: at boundary (first↑ or last↓) → don't preventDefault → natural scroll continues
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -84,16 +70,13 @@ export default function Home() {
   }, []);
 
   const handleNavClick = (index: number) => {
-    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
-      setActiveProject(projects[index].slug);
-      return;
-    }
+    // Determine shortest path
+    const currentActive = ((virtualIndex % total) + total) % total;
+    let distance = index - currentActive;
+    if (distance > total / 2) distance -= total;
+    else if (distance < -total / 2) distance += total;
     
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      window.scrollTo({ top: window.scrollY + rect.top - 88, behavior: 'smooth' });
-    }
-    setActiveProject(projects[index].slug);
+    setVirtualIndex(v => v + distance);
   };
 
   const handleScrollNext = () => {
@@ -108,31 +91,12 @@ export default function Home() {
     const projectsTop = projectsEl.offsetTop - 100;
     const contactTop = contactEl.offsetTop - 100;
 
-    if (scrollPos < aboutTop) {
-      // At Hero -> About
+    if (scrollPos < projectsTop) {
+      projectsEl.scrollIntoView({ behavior: 'smooth' });
+    } else if (scrollPos < aboutTop) {
       aboutEl.scrollIntoView({ behavior: 'smooth' });
-    } else if (scrollPos < projectsTop) {
-      // At About -> Projects (first project)
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        window.scrollTo({ top: window.scrollY + rect.top - 88, behavior: 'smooth' });
-      } else {
-        projectsEl.scrollIntoView({ behavior: 'smooth' });
-      }
     } else if (scrollPos < contactTop - 100) {
-      // Inside Projects -> Next card or Contact
-      const currentIndex = activeIndexRef.current;
-      if (currentIndex < projects.length - 1) {
-        // Next card
-        setActiveProject(projects[currentIndex + 1].slug);
-        if (containerRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-          window.scrollTo({ top: window.scrollY + rect.top - 88, behavior: 'smooth' });
-        }
-      } else {
-        // Last card -> Contact
-        contactEl.scrollIntoView({ behavior: 'smooth' });
-      }
+      contactEl.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -157,6 +121,101 @@ export default function Home() {
           
 
         </motion.div>
+      </section>
+
+      {/* ── Projects (Infinite Horizontal Swiper) ── */}
+      <section 
+        id="projects" 
+        className={styles.projects}
+        ref={projectsRef}
+      >
+        <div className={styles.projectsContainer} ref={containerRef}>
+          
+          <div className={styles.cardsDisplayWrapper}>
+            <div className={styles.projectCardArea}>
+              {projects.map((project, i) => {
+                // Minimum relative offset for infinite wrap-around
+                let diff = i - activeIndex;
+                if (diff < -1) diff += total;
+                if (diff > 1) diff -= total;
+
+                const isActive = diff === 0;
+
+                return (
+                <motion.div 
+                  key={project.slug}
+                  className={styles.absoluteCard}
+                  style={{
+                    backgroundColor: project.bgColor,
+                    cursor: isActive ? 'pointer' : 'grab',
+                  }}
+                  drag={!isActive ? false : "x"}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  onDragEnd={(e, { offset }) => {
+                    if (offset.x < -40) setVirtualIndex(v => v + 1);
+                    else if (offset.x > 40) setVirtualIndex(v => v - 1);
+                  }}
+                  onClick={() => {
+                    if (!isActive) handleNavClick(i);
+                  }}
+                  initial={false}
+                  animate={{
+                    x: `calc(${diff * 95}% + ${diff * 25}px)`, // Ensure precisely 20-30px gap without overlapping
+                    scale: isActive ? 1 : 0.85,
+                    opacity: Math.abs(diff) > 1 ? 0 : (isActive ? 1 : 0.6),
+                    zIndex: isActive ? 10 : (Math.abs(diff) === 1 ? 5 : 0),
+                    boxShadow: isActive 
+                      ? (theme === 'dark' 
+                          ? `0 20px 80px -10px rgba(0, 0, 0, 0.7)` 
+                          : `0 20px 60px -15px ${project.bgColor}`)
+                      : '0 10px 30px rgba(0,0,0,0.05)'
+                  }}
+                  transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                >
+                  <div className={isActive ? '' : styles.disabledLink} style={{ pointerEvents: isActive ? 'auto' : 'none' }}>
+                    <Link 
+                      href={`/projects/${project.slug}`}
+                      style={{ textDecoration: 'none', display: 'block' }}
+                      draggable={false}
+                    >
+                      <div className={styles.cardInner}>
+                        <div className={styles.cardImageWrapper}>
+                          <div className={styles.cardImageInner}>
+                            <Image
+                              src={project.imageSrc}
+                              alt={project.title}
+                              fill
+                              draggable={false}
+                              style={{ objectFit: 'cover' }}
+                              className={styles.projectImage}
+                            />
+                          </div>
+                        </div>
+                        
+                        <div className={styles.cardInfo}>
+                          <div className={styles.titleRow}>
+                            <h3 className={styles.cardTitle}>{project.title}</h3>
+                            <div className={styles.cardTags}>
+                              {project.tags.map(tag => (
+                                <span key={tag}>{tag}</span>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <div className={styles.cardFooter}>
+                            <span className={styles.dots}>● ○</span>
+                            <span className={styles.footerText}>UI/UX</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── About Snippet ── */}
@@ -194,113 +253,6 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-
-      {/* ── Projects (In-Place Scrolljacking) ── */}
-      <section 
-        id="projects" 
-        className={styles.projects}
-        ref={projectsRef}
-      >
-        <h2 className={styles.projectsSectionTitle}>PROJECTS</h2>
-        <div className={styles.projectsContainer} ref={containerRef}>
-          
-          <div className={styles.cardsDisplayWrapper}>
-            <div className={styles.projectCardArea}>
-              {projects.map((project) => {
-                const isActive = project.slug === activeProject;
-
-                return (
-                <motion.div 
-                  key={project.slug}
-                  className={styles.absoluteCard}
-                  style={{
-                    zIndex: isActive ? 10 : 0,
-                    backgroundColor: project.bgColor,
-                    transformOrigin: 'center center',
-                    cursor: 'pointer'
-                  }}
-                  initial={false}
-                  animate={{
-                    y: isActive ? 0 : 20,
-                    scale: isActive ? 1 : 0.98,
-                    opacity: isActive ? 1 : 0,
-                    boxShadow: isActive 
-                      ? (theme === 'dark' 
-                          ? `0 20px 80px -10px rgba(0, 0, 0, 0.7)` 
-                          : `0 20px 60px -15px ${project.bgColor}`)
-                      : '0 10px 30px rgba(0,0,0,0.05)'
-                  }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                >
-                  <Link 
-                    href={`/projects/${project.slug}`}
-                    style={{ textDecoration: 'none', display: 'block' }}
-                  >
-                    <div className={styles.cardInner}>
-                      <div className={styles.cardImageWrapper}>
-                        <div className={styles.cardImageInner}>
-                          <Image
-                            src={project.imageSrc}
-                            alt={project.title}
-                            fill
-                            style={{ objectFit: 'cover' }}
-                            className={styles.projectImage}
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className={styles.cardInfo}>
-                        <div className={styles.titleRow}>
-                          <h3 className={styles.cardTitle}>{project.title}</h3>
-                          <div className={styles.cardTags}>
-                            {project.tags.map(tag => (
-                              <span key={tag}>{tag}</span>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <div className={styles.cardFooter}>
-                          <span className={styles.dots}>● ○</span>
-                          <span className={styles.footerText}>UI/UX</span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className={styles.projectsSidebar}>
-             <div className={styles.stickySpy}>
-               <ul className={styles.spyList}>
-                 {projects.map((project, i) => {
-                   const isActive = project.slug === activeProject;
-                   return (
-                    <li key={project.slug} className={styles.spyItemWrapper}>
-                      <div 
-                        className={`${styles.spyItem} ${isActive ? styles.spyActive : ''}`}
-                        onClick={() => handleNavClick(i)}
-                      >
-                        <div className={styles.spyDash} />
-                        <span className={styles.spyName}>{project.title}</span>
-                      </div>
-                      {i < projects.length - 1 && (
-                        <div className={styles.spyDots}>
-                          <div className={styles.spySolidDash} />
-                          <div className={styles.spySolidDash} />
-                          <div className={styles.spySolidDash} />
-                        </div>
-                      )}
-                    </li>
-                 )})}
-               </ul>
-             </div>
-          </div>
-
-        </div>
-      </section>
       
       {/* ── Contact Section ── */}
       <section id="contact" className={styles.contactSection}>
@@ -311,11 +263,6 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className={styles.contactHeader}>
-            Contact<br/>
-            Information
-          </h2>
-          
           <div className={styles.contactCard}>
             <div className={styles.infoLeft}>
               <div className={styles.infoBlock}>

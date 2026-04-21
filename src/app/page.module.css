@@ -132,7 +132,7 @@
    ABOUT
 ════════════════════════════════ */
 .about {
-  padding: 8rem 20px;
+  padding: 8rem 20px 2rem;
 }
 
 .aboutGrid {
@@ -141,20 +141,25 @@
   grid-template-areas: 
     "title img"
     "text img";
-  gap: 2rem 4rem;
+  gap: 2rem 2rem;
   align-items: center;
 }
 
 .aboutTitle {
   grid-area: title;
-  font-family: var(--font-logo-sc), var(--font-unbounded), var(--font-body), sans-serif;
-  font-size: clamp(1.75rem, 7.5vw, 5.5rem);
+  font-family: var(--font-unbounded), var(--font-body), sans-serif;
+  font-size: clamp(2rem, 8vw, 6rem);
   font-weight: 900;
-  line-height: 1.1;
-  color: var(--text-primary);
+  line-height: 0.95;
+  color: #2b3151;
   letter-spacing: -0.01em;
   margin: 0;
+  margin-bottom: 20px;
   align-self: end;
+}
+
+:global([data-theme='dark']) .aboutTitle {
+  color: #ffffff;
 }
 
 .aboutTextCol {
@@ -181,7 +186,7 @@
   font-size: 0.95rem;
   line-height: 2;
   margin-bottom: 2.5rem;
-  max-width: 500px;
+  max-width: 560px;
 }
 
 :global([data-theme='dark']) .aboutText {
@@ -211,7 +216,7 @@
 .avatarWrapper {
   position: relative;
   width: 100%;
-  max-width: 440px;
+  max-width: 500px;
   aspect-ratio: 3 / 4;
   border-radius: 30px;
   overflow: hidden;
@@ -241,7 +246,13 @@
 ════════════════════════════════ */
 .projects {
   position: relative;
-  padding: 4rem 20px 8rem;
+  height: calc(50vh + 340px);
+  scroll-margin-top: calc(50vh - 340px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 20px 0;
 }
 
 .projectsSectionTitle {
@@ -255,11 +266,11 @@
 }
 
 .projectsContainer {
-  display: grid;
-  grid-template-columns: 1fr 240px;
-  gap: 4rem;
+  display: flex;
+  justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
 }
 .cardsDisplayWrapper {
   position: relative;
@@ -271,7 +282,9 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  width: 100%;
+  width: 75%;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .absoluteCard {
@@ -482,7 +495,7 @@
    CONTACT FOOTER (Clean White)
 ════════════════════════════════ */
 .contactSection {
-  padding: 8rem 20px;
+  padding: 2rem 20px 8rem;
   display: flex;
   justify-content: center;
   background-color: var(--bg);
@@ -507,14 +520,18 @@
 }
 
 .contactCard {
-  background-color: var(--surface);
+  background-color: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 3rem 4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 40px rgba(0,0,0,0.05);
+  box-shadow: none;
+}
+
+:global([data-theme='dark']) .contactCard {
+  background-color: var(--surface);
 }
 
 .infoLeft {
@@ -538,11 +555,15 @@
 .infoValue {
   font-family: var(--font-unbounded), sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.8rem);
-  font-weight: 800;
-  color: var(--fg);
+  font-weight: 900;
+  color: #2b3151;
   overflow-wrap: break-word;   /* prevent long email from overflowing */
   word-break: break-all;
   min-width: 0;
+}
+
+:global([data-theme='dark']) .infoValue {
+  color: #ffffff;
 }
 
 .infoRight {
@@ -593,10 +614,22 @@
 /* ════════════════════════════════
    RESPONSIVE
 ════════════════════════════════ */
-@media (max-width: 1024px) {
-  .projectsContainer {
-    grid-template-columns: 1fr 180px;
-    gap: 2rem;
+@media (max-width: 1200px) {
+  .projectCardArea {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .absoluteCard {
+    position: relative !important;
+    transform: none !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+    width: 100% !important;
   }
 }
 
@@ -604,14 +637,7 @@
   .hideMobile {
     display: none;
   }
-  
-  .projectsContainer {
-    grid-template-columns: 1fr;
-  }
-  
-  .projectsSidebar {
-    display: none;
-  }
+
   
   .aboutGrid {
     grid-template-columns: 1fr;

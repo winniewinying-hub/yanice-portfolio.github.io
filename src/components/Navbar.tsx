@@ -21,22 +21,22 @@ export default function Navbar() {
       if (!isHome) return;
 
       const windowHeight = window.innerHeight;
-      const scrollPos = window.scrollY + (windowHeight / 2);
+      const scrollPos = window.scrollY + (windowHeight / 3);
       const documentHeight = document.documentElement.scrollHeight;
       
       const about = document.getElementById('about')?.offsetTop || 0;
       const projects = document.getElementById('projects')?.offsetTop || 0;
-      const contact = document.getElementById('contact')?.offsetTop || 0;
+      // const contact = document.getElementById('contact')?.offsetTop || 0;
 
       // Force contact active if at the very bottom
-      if (window.scrollY + windowHeight >= documentHeight - 100) {
-        setActiveHash('#contact');
-      } else if (contact > 0 && scrollPos >= contact) {
-        setActiveHash('#contact');
-      } else if (projects > 0 && scrollPos >= projects) {
-        setActiveHash('#projects');
-      } else if (about > 0 && scrollPos >= about) {
+      // if (window.scrollY + windowHeight >= documentHeight - 100) {
+      //   setActiveHash('#contact');
+      // } else if (contact > 0 && scrollPos >= contact) {
+      //   setActiveHash('#contact');
+      if (about > 0 && scrollPos >= about - 100) {
         setActiveHash('#about');
+      } else if (projects > 0 && scrollPos >= projects - 100) {
+        setActiveHash('#projects');
       } else {
         setActiveHash('');
       }
@@ -59,9 +59,9 @@ export default function Navbar() {
         
         {/* Desktop Links */}
         <div className={styles.links}>
-          <Link href="/#about" className={`${styles.link} ${activeHash === '#about' ? styles.linkActive : ''}`}>About</Link>
           <Link href="/#projects" className={`${styles.link} ${activeHash === '#projects' ? styles.linkActive : ''}`}>Projects</Link>
-          <Link href="/#contact" className={`${styles.link} ${activeHash === '#contact' ? styles.linkActive : ''}`}>Get In Touch</Link>
+          <Link href="/#about" className={`${styles.link} ${activeHash === '#about' ? styles.linkActive : ''}`}>About Me</Link>
+          {/* <Link href="/#contact" className={`${styles.link} ${activeHash === '#contact' ? styles.linkActive : ''}`}>Get In Touch</Link> */}
           
           <button 
             className={styles.themeToggle} 
@@ -128,9 +128,9 @@ export default function Navbar() {
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
           <div className={styles.mobileMenu}>
-            <Link href="/#about" onClick={() => setMobileMenuOpen(false)}>About</Link>
             <Link href="/#projects" onClick={() => setMobileMenuOpen(false)}>Projects</Link>
-            <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+            <Link href="/#about" onClick={() => setMobileMenuOpen(false)}>About Me</Link>
+            {/* <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link> */}
           </div>
         )}
       </div>

@@ -111,8 +111,7 @@
 .contentSection {
   display: flex;
   flex-direction: column;
-  /* 1px @ 390vw → 4px @ 1200vw, linear interpolation */
-  gap: clamp(1px, -0.44px + 0.3704vw, 4px);
+  gap: 0;
 }
 
 .contentImageWrapper {
