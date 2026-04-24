@@ -53,7 +53,7 @@ export default function Navbar() {
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.navContainer}>
-        <Link href="/" className={styles.brand}>
+        <Link href="/#hero" className={styles.brand}>
           YANICEPORTFOLIO
         </Link>
         

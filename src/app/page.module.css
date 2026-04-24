@@ -242,74 +242,89 @@
 }
 
 /* ════════════════════════════════
-   PROJECTS (STICKY)
+   PROJECTS (SPOTLIGHT LAYOUT)
 ════════════════════════════════ */
 .projects {
   position: relative;
-  height: calc(50vh + 340px);
-  scroll-margin-top: calc(50vh - 340px);
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 0 20px 0;
+  justify-content: center;
+  padding: 0 20px;
 }
 
-.projectsSectionTitle {
-  font-family: var(--font-logo-sc), var(--font-unbounded), var(--font-body), sans-serif;
-  font-size: clamp(1.75rem, 7.5vw, 5.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  color: var(--text-primary);
-  margin-bottom: 2rem;
-  letter-spacing: -0.01em;
-}
-
-.projectsContainer {
+.spotlightContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch; /* Stretch cards to ensure exactly same height */
   position: relative;
-  width: 100%;
-}
-.cardsDisplayWrapper {
-  position: relative;
-  width: 100%;
-}
-
-.projectCardArea {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  width: 75%;
-  max-width: 760px;
-  margin: 0 auto;
+  width: 100vw;
+  max-width: 1980px; /* Capped at 1980px as requested */
+  margin-left: auto;
+  margin-right: auto;
+  /* Use centering logic for when inside a narrower parent if applicable, 
+     but since it's breaking out, we ensure it centers on large screens */
+  left: 50%;
+  transform: translateX(-50%);
+  perspective: 1000px;
+  /* Apply negative margin gap for overlapping stack */
+  gap: 0;
 }
 
-.absoluteCard {
-  grid-area: 1 / 1;
-  width: 100%;
+/* 
+  Spotlight effect: 
+  When container has any hovered card, dim the other cards!
+  In combination with framer-motion static styles, we just override via CSS.
+*/
+.spotlightContainer:has(.stackedCard:hover) .stackedCard:not(:hover) {
+  opacity: 0.4;
+  transform: rotate(var(--base-rot)) translateY(var(--base-y)) scale(0.95) !important;
+  z-index: 0 !important;
+}
+
+.stackedCard {
+  position: relative;
+  flex: 1;
+  max-width: 520px; /* Increased card size */
+  /* Reduced negative margin to make it less tight */
+  margin-left: -3.5%;
+  margin-right: -3.5%;
   border-radius: 24px;
   overflow: hidden;
-  padding: 16px;
-  height: max-content;
-  transition: box-shadow 0.35s ease;
+  padding: 10px;
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  /* default state with tilt */
+  transform: rotate(var(--base-rot)) translateY(var(--base-y));
+  z-index: 5;
+  cursor: pointer;
 }
 
-:global([data-theme='dark']) .absoluteCard:hover {
+.stackedCard:hover {
+  /* straight pop out */
+  transform: rotate(0deg) translateY(-20px) scale(1.15) !important;
+  z-index: 20 !important;
+  opacity: 1 !important;
+  filter: brightness(1) saturate(1) !important;
+  box-shadow: 0 30px 60px -10px rgba(0,0,0,0.3);
+}
+
+:global([data-theme='dark']) .stackedCard:hover {
   box-shadow: 0 0 40px 4px rgba(255, 255, 255, 0.07), 0 0 80px 8px rgba(180, 180, 255, 0.04);
 }
 
 .cardInner {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .cardImageWrapper {
   width: 100%;
   flex-shrink: 0;
-  aspect-ratio: 160 / 90;     /* Figma: aspect-[160/90] */
+  /* Restored default 16:9 aspect ratio */
+  aspect-ratio: 160 / 90;
   position: relative;
   border-radius: 22px;        /* Figma desktop: rounded-22px */
   overflow: hidden;
@@ -332,39 +347,39 @@
   padding: 20px 10px;
   display: flex;
   flex-direction: column;
+  flex-grow: 1; /* allow it to fill remaining space */
   gap: 20px;
 }
 
 .titleRow {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 0.8rem;
 }
 
 .cardTitle {
-  /* Figma desktop: 60px heavy, #2b3151 */
-  font-size: clamp(1.875rem, 4.5vw, 3.75rem);
+  /* Dynamic font size for thinner cards */
+  font-size: clamp(1.4rem, 3.5vw, 2.4rem);
   font-weight: 800;
   color: #2b3151; /* Fixed dark color for cards */
   line-height: 1;
-  white-space: nowrap;
+  white-space: normal; /* allow wrapping if title is long */
 }
 
 .cardTags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-end;
+  gap: 6px;
+  justify-content: flex-start;
 }
 
 .cardTags span {
-  /* Figma desktop: bg #2b3151, px-16 py-12, rounded-30, 14px regular white */
-  padding: 12px 16px;
+  padding: 6px 10px;
   background-color: #2b3151;
   border-radius: 30px;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 400;
   color: #ffffff;
   line-height: 1;
@@ -379,6 +394,7 @@
   color: #2b3151;
   font-size: 16px;
   font-weight: 500;
+  margin-top: auto; /* Push footer to the absolute bottom so they align */
 }
 
 .dots {
@@ -614,24 +630,7 @@
 /* ════════════════════════════════
    RESPONSIVE
 ════════════════════════════════ */
-@media (max-width: 1200px) {
-  .projectCardArea {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-    max-width: 800px;
-  }
 
-  .absoluteCard {
-    position: relative !important;
-    transform: none !important;
-    opacity: 1 !important;
-    z-index: 1 !important;
-    width: 100% !important;
-  }
-}
 
 @media (max-width: 768px) {
   .hideMobile {
@@ -659,14 +658,12 @@
     border-radius: 12px;
   }
 
-  .projectCardArea {
-    height: auto;
-    display: flex;
+  .spotlightContainer {
     flex-direction: column;
     gap: 20px;
   }
   
-  .absoluteCard {
+  .stackedCard {
     position: relative !important;
     transform: none !important;
     opacity: 1 !important;
@@ -674,6 +671,9 @@
     /* Figma mobile: rounded-16, p-10 */
     border-radius: 16px !important;
     padding: 10px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100%;
   }
   
   .gridMask {
