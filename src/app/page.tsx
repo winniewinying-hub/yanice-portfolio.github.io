@@ -77,6 +77,7 @@ export default function Home() {
         id="projects" 
         className={styles.projects}
       >
+        <h2 className={styles.mobileProjectsTitle}>PROJECTS</h2>
         <div className={styles.spotlightContainer}>
           {projects.map((project, i) => {
             // Explicitly define the arc transform for 4 cards to match the reference better

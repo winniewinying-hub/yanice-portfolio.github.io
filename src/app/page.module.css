@@ -252,7 +252,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 20px;
+  padding: 8rem 20px; /* added some padding for mobile top/bottom spacing */
+}
+
+.mobileProjectsTitle {
+  display: none; /* Hidden on desktop */
+  font-family: var(--font-logo-sc), var(--font-unbounded), sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2b3151;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
 .spotlightContainer {
@@ -637,7 +648,16 @@
     display: none;
   }
 
-  
+  .projects {
+    padding: 60px 20px;
+    justify-content: flex-start;
+  }
+
+  .mobileProjectsTitle {
+    display: block; /* Show only on mobile */
+    align-self: flex-start;
+    margin-bottom: 2rem;
+  }
   .aboutGrid {
     grid-template-columns: 1fr;
     grid-template-areas: 
@@ -660,20 +680,40 @@
 
   .spotlightContainer {
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+    width: 100% !important;
+    max-width: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+    margin: 0 !important;
   }
   
   .stackedCard {
     position: relative !important;
     transform: none !important;
     opacity: 1 !important;
+    filter: none !important;
     z-index: 1 !important;
     /* Figma mobile: rounded-16, p-10 */
     border-radius: 16px !important;
     padding: 10px !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    max-width: 100%;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  /* Disable spotlight effects on mobile */
+  .spotlightContainer:has(.stackedCard:hover) .stackedCard:not(:hover) {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .stackedCard:hover {
+    transform: none !important;
+    scale: 1 !important;
+    box-shadow: none !important;
   }
   
   .gridMask {
